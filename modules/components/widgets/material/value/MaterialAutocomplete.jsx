@@ -1,26 +1,32 @@
 import React from "react";
 import omit from "lodash/omit";
-import TextField from "@material-ui/core/TextField";
-import FormControl from "@material-ui/core/FormControl";
-import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import Chip from "@material-ui/core/Chip";
-import Checkbox from "@material-ui/core/Checkbox";
 import { makeStyles } from "@material-ui/core/styles";
-import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
-import CheckBoxIcon from "@material-ui/icons/CheckBox";
+import { createFilterOptions } from "@mui/material/Autocomplete";
+import {
+  TextField,
+  FormControl,
+  Autocomplete,
+  CircularProgress,
+  Chip,
+  Checkbox,
+} from "@mui/material";
+import { CheckBoxOutlineBlank, CheckBox } from "@mui/icons-material";
 
 import useListValuesAutocomplete from "../../../../hooks/useListValuesAutocomplete";
 
-const nonCheckedIcon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-const checkedIcon = <CheckBoxIcon fontSize="small" />;
+const nonCheckedIcon = <CheckBoxOutlineBlank fontSize="small" />;
+const checkedIcon = <CheckBox fontSize="small" />;
 const defaultFilterOptions = createFilterOptions();
 const emptyArray = [];
 
 export default (props) => {
   const {
-    allowCustomValues, multiple,
-    value: selectedValue, customProps, readonly, config
+    allowCustomValues,
+    multiple,
+    value: selectedValue,
+    customProps,
+    readonly,
+    config,
   } = props;
 
   // hook
@@ -41,12 +47,12 @@ export default (props) => {
     getOptionLabel,
   } = useListValuesAutocomplete(props, {
     debounceTimeout: 100,
-    multiple
+    multiple,
   });
 
   // setings
-  const {defaultSelectWidth, defaultSearchWidth} = config.settings;
-  const {width, showCheckboxes, ...rest} = customProps || {};
+  const { defaultSelectWidth, defaultSearchWidth } = config.settings;
+  const { width, showCheckboxes, ...rest } = customProps || {};
   let customInputProps = rest.input || {};
   const inputWidth = customInputProps.width || defaultSearchWidth;
   customInputProps = omit(customInputProps, ["width"]);
@@ -55,14 +61,14 @@ export default (props) => {
   const fullWidth = true;
   const minWidth = width || defaultSelectWidth;
   const style = {
-    width: (multiple ? undefined : minWidth),
-    minWidth: minWidth
+    width: multiple ? undefined : minWidth,
+    minWidth: minWidth,
   };
   const placeholder = !readonly ? aPlaceholder : "";
   const hasValue = selectedValue != null;
   // should be simple value to prevent re-render!s
-  const value = hasValue ? selectedValue : (multiple ? emptyArray : null);
-  
+  const value = hasValue ? selectedValue : multiple ? emptyArray : null;
+
   const filterOptions = (options, params) => {
     const filtered = defaultFilterOptions(options, params);
     const extended = extendOptions(filtered, params);
@@ -74,18 +80,18 @@ export default (props) => {
     // fix too small width
     input: {
       minWidth: inputWidth + " !important",
-    }
+    },
   }));
 
   const useStylesChip = makeStyles((theme) => ({
     // fix height
     root: {
-      height: "auto"
+      height: "auto",
     },
     label: {
       marginTop: "3px",
       marginBottom: "3px",
-    }
+    },
   }));
 
   const classesChip = useStylesChip();
@@ -94,14 +100,16 @@ export default (props) => {
   // render
   const renderInput = (params) => {
     return (
-      <TextField 
-        {...params} 
+      <TextField
+        {...params}
         InputProps={{
           ...params.InputProps,
           readOnly: readonly,
           endAdornment: (
             <React.Fragment>
-              {isLoading ? <CircularProgress color="inherit" size={20} /> : null}
+              {isLoading ? (
+                <CircularProgress color="inherit" size={20} />
+              ) : null}
               {params.InputProps.endAdornment}
             </React.Fragment>
           ),
@@ -114,26 +122,31 @@ export default (props) => {
     );
   };
 
-  const renderTags = (value, getTagProps) => value.map((option, index) => {
-    return <Chip
-      key={index}
-      classes={classesChip}
-      label={getOptionLabel(option)}
-      {...getTagProps({ index })}
-    />;
-  });
+  const renderTags = (value, getTagProps) =>
+    value.map((option, index) => {
+      return (
+        <Chip
+          key={index}
+          classes={classesChip}
+          label={getOptionLabel(option)}
+          {...getTagProps({ index })}
+        />
+      );
+    });
 
   const renderOption = (option, { selected }) => {
     if (multiple && showCheckboxes != false) {
-      return <React.Fragment>
-        <Checkbox
-          icon={nonCheckedIcon}
-          checkedIcon={checkedIcon}
-          style={{ marginRight: 8 }}
-          checked={selected}
-        />
-        {option.title}
-      </React.Fragment>;
+      return (
+        <React.Fragment>
+          <Checkbox
+            icon={nonCheckedIcon}
+            checkedIcon={checkedIcon}
+            style={{ marginRight: 8 }}
+            checked={selected}
+          />
+          {option.title}
+        </React.Fragment>
+      );
     } else {
       return <React.Fragment>{option.title}</React.Fragment>;
     }

@@ -1,7 +1,7 @@
 import React from "react";
 import { ThemeProvider, createTheme } from "@mui/styles";
 import { ConfirmProvider, useConfirm } from "material-ui-confirm";
-import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { LocalizationProvider } from "@mui/lab";
 import MomentUtils from "@date-io/moment";
 
 // value widgets
@@ -39,9 +39,9 @@ const MaterialProvider = ({ config, children }) => {
 
   const base = <div className="mui">{children}</div>;
   const withProviders = (
-    <MuiPickersUtilsProvider utils={MomentUtils}>
+    <LocalizationProvider utils={MomentUtils}>
       <ConfirmProvider>{base}</ConfirmProvider>
-    </MuiPickersUtilsProvider>
+    </LocalizationProvider>
   );
   const withTheme = theme ? (
     <ThemeProvider theme={theme}>{withProviders}</ThemeProvider>
