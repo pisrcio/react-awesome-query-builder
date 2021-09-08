@@ -1,5 +1,5 @@
 import React from "react";
-import { KeyboardDatePicker, DatePicker } from "@mui/lab";
+import { DatePicker } from "@mui/lab";
 import { FormControl } from "@mui/material";
 
 export default (props) => {
@@ -22,7 +22,7 @@ export default (props) => {
     setValue(formatSingleValue(value));
   };
 
-  const Picker = useKeyboard ? KeyboardDatePicker : DatePicker;
+  const Picker = DatePicker;
 
   return (
     <FormControl>

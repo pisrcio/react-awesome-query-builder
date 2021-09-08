@@ -1,5 +1,5 @@
 import React from "react";
-import { ThemeProvider, createTheme } from "@mui/styles";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { ConfirmProvider, useConfirm } from "material-ui-confirm";
 import { LocalizationProvider } from "@mui/lab";
 import MomentUtils from "@date-io/moment";

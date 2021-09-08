@@ -1,5 +1,5 @@
 import React from "react";
-import { TimePicker, KeyboardTimePicker } from "@mui/lab";
+import { TimePicker } from "@mui/lab";
 import moment from "moment";
 import { FormControl } from "@mui/material";
 
@@ -24,7 +24,7 @@ export default (props) => {
     setValue(formatSingleValue(value));
   };
 
-  const Picker = useKeyboard ? KeyboardTimePicker : TimePicker;
+  const Picker = TimePicker;
   const hasSeconds = timeFormat.indexOf(":ss") != -1;
   const timeValue = value ? moment(value, timeFormat) : null;
 
