@@ -1,9 +1,8 @@
 import React from "react";
-import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { ThemeProvider, createTheme } from "@mui/styles";
 import { ConfirmProvider, useConfirm } from "material-ui-confirm";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import MomentUtils from "@date-io/moment";
-
 
 // value widgets
 import MaterialTextWidget from "./value/MaterialText";
@@ -30,31 +29,28 @@ import MaterialValueSources from "./core/MaterialValueSources";
 import MaterialConfirm from "./core/MaterialConfirm";
 
 // provider
-const MaterialProvider = ({config, children}) => {
+const MaterialProvider = ({ config, children }) => {
   const settingsTheme = config.settings.theme || {};
   const settingsLocale = config.settings.locale || {};
   const themeConfig = settingsTheme.material;
   const locale = settingsLocale.material;
   const useTheme = themeConfig || locale;
-  const theme = useTheme ? createMuiTheme(themeConfig, locale) : null;
+  const theme = useTheme ? createTheme(themeConfig, locale) : null;
 
-  const base = (<div className="mui">{children}</div>);
+  const base = <div className="mui">{children}</div>;
   const withProviders = (
     <MuiPickersUtilsProvider utils={MomentUtils}>
-      <ConfirmProvider>
-        {base}
-      </ConfirmProvider>
+      <ConfirmProvider>{base}</ConfirmProvider>
     </MuiPickersUtilsProvider>
   );
   const withTheme = theme ? (
-    <ThemeProvider theme={theme}>
-      {withProviders}
-    </ThemeProvider>
-  ) : withProviders;
+    <ThemeProvider theme={theme}>{withProviders}</ThemeProvider>
+  ) : (
+    withProviders
+  );
 
   return withTheme;
 };
-
 
 export default {
   MaterialTextWidget,
