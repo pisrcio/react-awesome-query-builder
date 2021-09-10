@@ -39,7 +39,7 @@ const MaterialProvider = ({ config, children }) => {
 
   const base = <div className="mui">{children}</div>;
   const withProviders = (
-    <LocalizationProvider utils={MomentUtils}>
+    <LocalizationProvider dateAdapter={MomentUtils}>
       <ConfirmProvider>{base}</ConfirmProvider>
     </LocalizationProvider>
   );
